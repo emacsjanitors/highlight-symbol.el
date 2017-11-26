@@ -100,7 +100,7 @@
 (require 'thingatpt)
 (eval-when-compile (require 'cl))
 
-(push "^No symbol at point$" debug-ignored-errors)
+;;; Options and Variables
 
 (defgroup highlight-symbol nil
   "Automatic and manual symbols highlighting"
@@ -231,7 +231,7 @@ element in of `highlight-symbol-faces'."
   (interactive)
   (let ((symbol (or symbol
                     (highlight-symbol-get-symbol)
-                    (error "No symbol at point"))))
+                    (user-error "No symbol at point"))))
     (if (highlight-symbol-symbol-highlighted-p symbol)
         (highlight-symbol-remove-symbol symbol)
       (highlight-symbol-add-symbol symbol)
@@ -317,7 +317,7 @@ element in of `highlight-symbol-faces'."
   (interactive '(nil t))
   (let* ((symbol (or symbol
                      (highlight-symbol-get-symbol)
-                     (error "No symbol at point")))
+                     (user-error "No symbol at point")))
          (case-fold-search nil)
          (count (how-many symbol (point-min) (point-max))))
     (when message-p
@@ -386,7 +386,7 @@ current buffer.
 (defun highlight-symbol-query-replace (replacement)
   "Replace the symbol at point with REPLACEMENT."
   (interactive (let ((symbol (or (thing-at-point 'symbol)
-                                 (error "No symbol at point"))))
+                                 (user-error "No symbol at point"))))
                  (highlight-symbol-temp-highlight)
                  (set query-replace-to-history-variable
                       (cons (substring-no-properties symbol)
@@ -405,7 +405,7 @@ before if NLINES is negative."
   (interactive "P")
   (if (thing-at-point 'symbol)
       (occur (highlight-symbol-get-symbol) nlines)
-    (error "No symbol at point")))
+    (user-error "No symbol at point")))
 
 ;;; Utilities
 
@@ -475,7 +475,7 @@ DIR has to be 1 or -1."
           (when msg
             (highlight-symbol-count symbol t))
           (setq this-command 'highlight-symbol-jump))
-      (error "No symbol at point"))))
+      (user-error "No symbol at point"))))
 
 (provide 'highlight-symbol)
 
