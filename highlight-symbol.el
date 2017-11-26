@@ -200,6 +200,8 @@ message after navigation commands."
           (const :tag "Message after navigation commands" navigation))
   :group 'highlight-symbol)
 
+;;; Mode
+
 (defvar highlight-symbol-mode-lighter " hl-s"
   "The mode-line lighter of Highlight-Symbol mode.")
 
@@ -285,6 +287,8 @@ element in of `highlight-symbol-faces'."
           (delq keywords highlight-symbol-keyword-alist))
     (font-lock-remove-keywords nil (list keywords))
     (highlight-symbol-flush)))
+
+;;; Commands
 
 ;;;###autoload
 (defun highlight-symbol-remove-all ()
@@ -402,6 +406,8 @@ before if NLINES is negative."
   (if (thing-at-point 'symbol)
       (occur (highlight-symbol-get-symbol) nlines)
     (error "No symbol at point")))
+
+;;; Utilities
 
 (defun highlight-symbol-get-symbol ()
   "Return a regular expression identifying the symbol at point."
